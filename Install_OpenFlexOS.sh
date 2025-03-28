@@ -31,7 +31,6 @@
         pacman --noconfirm --needed -S ttf-nerd-fonts-symbols # For icons
         pacman --noconfirm --needed -S xdg-user-dirs # Create user directories upon user creation
         pacman --noconfirm --needed -S alacritty # Terminal Appliction
-        pacman --noconfirm --needed -S conky # System infomation overlay on desktop
         pacman --noconfirm --needed -S lsd # coloured ls output
         pacman --noconfirm --needed -S bat # replacement for cat with coloured output
         pacman --noconfirm --needed -S pavucontrol-qt # Audio Control GUI
