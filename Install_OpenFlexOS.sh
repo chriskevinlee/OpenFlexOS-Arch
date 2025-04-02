@@ -214,8 +214,8 @@
             cp OpenFlexOS-Configs/dot.xscreensaver $user_home/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc $user_home/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc $user_home/.bashrc
-            cp OpenFlexOS-Configs/dot.p10k.zsh $user_home/.p10k.zsh
-            git clone https://github.com/romkatv/powerlevel10k.git $user_home/.config/powerlevel10k/
+            cp OpenFlexOS-Configs/config/ohmyposh/base.toml $user_home/.config/ohmyposh/base.toml
+            sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
             chsh -s "$zsh_path" $user_to_copyf
             chown -R $user_to_copy:$user_to_copy $user_home
             chmod -R +x $user_home/.config/$lower_main/scripts/
@@ -272,9 +272,9 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/dot.p10k.zsh /etc/skel/.p10k.zsh
+            cp OpenFlexOS-Configs/config/ohmyposh/base.toml /etc/skel/.config/ohmyposh/base.toml
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
-            git clone https://github.com/romkatv/powerlevel10k.git /etc/skel/.config/powerlevel10k/
+            sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
         elif [[  -d /etc/skel/.config ]]; then
             if [[ ! -d /etc/skel/.config/wallpapers ]]; then
                 cp -r OpenFlexOS-Configs/config/wallpapers/ /etc/skel/.config/wallpapers/
@@ -292,9 +292,9 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/dot.p10k.zsh /etc/skel/.p10k.zsh
+            cp OpenFlexOS-Configs/config/ohmyposh/base.toml /etc/skel/.config/ohmyposh/base.toml
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
-            git clone https://github.com/romkatv/powerlevel10k.git /etc/skel/.config/powerlevel10k/     
+            sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin    
         fi
     }
 
