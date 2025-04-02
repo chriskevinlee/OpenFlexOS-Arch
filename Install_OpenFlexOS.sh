@@ -214,7 +214,7 @@
             cp OpenFlexOS-Configs/dot.xscreensaver $user_home/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc $user_home/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc $user_home/.bashrc
-            cp OpenFlexOS-Configs/config/ohmyposh/base.toml $user_home/.config/ohmyposh/base.toml
+            cp -r OpenFlexOS-Configs/config/ohmyposh/ $user_home/.config/
             sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
             chsh -s "$zsh_path" $user_to_copyf
             chown -R $user_to_copy:$user_to_copy $user_home
@@ -272,7 +272,7 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/config/ohmyposh/base.toml /etc/skel/.config/ohmyposh/base.toml
+            cp OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
             sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
         elif [[  -d /etc/skel/.config ]]; then
@@ -292,7 +292,7 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/config/ohmyposh/base.toml /etc/skel/.config/ohmyposh/base.toml
+            cp OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
             sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin    
         fi
