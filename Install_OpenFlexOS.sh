@@ -58,7 +58,7 @@
         pacman --noconfirm --needed -S materia-gtk-theme # A GTK theme
         pacman --noconfirm --needed -S dunst # Notification System
         pacman --noconfirm --needed -S picom # Compositor for effect
-        pacman --noconfirm --needed -S wmctrl # To change sxiv window title, used in wallpaper_changer.sh
+        pacman --noconfirm --needed -S wmctrl # To change sxiv window title, used in OpenFlexOS_WallpaperChanger.sh
         pacman --noconfirm --needed -S xf86-input-libinput xbindkeys sxhkd playerctl
         pacman --noconfirm --needed -S galculator
         pacman --noconfirm --needed -S zenity
@@ -302,8 +302,8 @@
     miscellaneous_configs () {
         cp OpenFlexOS-Configs/nd /usr/local/bin/nd
         chmod +x /usr/local/bin/nd
-        cp OpenFlexOS-Configs/wallpaper_changer.sh /usr/local/bin/wallpaper_changer.sh
-        chmod +x /usr/local/bin/wallpaper_changer.sh
+        cp OpenFlexOS-Configs/OpenFlexOS_WallpaperChanger.sh /usr/local/bin/OpenFlexOS_WallpaperChanger.sh
+        chmod +x /usr/local/bin/OpenFlexOS_WallpaperChanger.sh
         cp OpenFlexOS-Configs/wallpaper.desktop /usr/share/applications/wallpaper.desktop
 
         cp -r OpenFlexOS-Configs/Midnight-Red /usr/share/themes/Midnight-Red
