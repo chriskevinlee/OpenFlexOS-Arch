@@ -272,7 +272,7 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
+            cp -r OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
             sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin
         elif [[  -d /etc/skel/.config ]]; then
@@ -292,7 +292,7 @@
             cp OpenFlexOS-Configs/dot.xscreensaver /etc/skel/.xscreensaver
             cp OpenFlexOS-Configs/dot.zshrc /etc/skel/.zshrc
             cp OpenFlexOS-Configs/dot.bashrc /etc/skel/.bashrc
-            cp OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
+            cp -r OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
             chmod -R +x /etc/skel/.config/$lower_main/scripts/
             sudo curl -s https://ohmyposh.dev/install.sh | sudo bash -s -- -d /usr/local/bin    
         fi
