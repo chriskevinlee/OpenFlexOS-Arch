@@ -304,7 +304,7 @@
         chmod +x /usr/local/bin/nd
         cp OpenFlexOS-Configs/OpenFlexOS_WallpaperChanger.sh /usr/local/bin/OpenFlexOS_WallpaperChanger.sh
         chmod +x /usr/local/bin/OpenFlexOS_WallpaperChanger.sh
-        cp OpenFlexOS-Configs/wallpaper.desktop /usr/share/applications/wallpaper.desktop
+        cp OpenFlexOS-Configs/OpenFlexOS_Wallpaper.desktop /usr/share/applications/OpenFlexOS_Wallpaper.desktop
 
         cp -r OpenFlexOS-Configs/Midnight-Red /usr/share/themes/Midnight-Red
         cp -r OpenFlexOS-Configs/Midnight-Green /usr/share/themes/Midnight-Green
