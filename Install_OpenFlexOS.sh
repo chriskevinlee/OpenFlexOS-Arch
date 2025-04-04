@@ -26,7 +26,6 @@
         pacman --noconfirm --needed -S xscreensaver # Screensaver
         pacman --noconfirm --needed -S feh # To set wallpapers
         pacman --noconfirm --needed -S rofi # For Application and power Laucher
-        pacman --noconfirm --needed -S dmenu # For Application and power Laucher
         pacman --noconfirm --needed -S arandr # To set Screen Resolution
         pacman --noconfirm --needed -S ttf-nerd-fonts-symbols # For icons
         pacman --noconfirm --needed -S xdg-user-dirs # Create user directories upon user creation
@@ -107,6 +106,38 @@
         
         echo "Installing Vosk inside virtual environment..."
         pip install vosk
+
+        git clone https://github.com/chriskevinlee/dmenu.git
+        cd dmenu
+        sudo make clean install
+        sudo make install
+        cd
+
+        # Ensure base-devel and git are installed
+        pacman -Sy --noconfirm --needed base-devel git
+
+        # Create build user only if it doesn't exist
+        if ! id builder &>/dev/null; then
+            useradd -m -G wheel -s /bin/bash builder
+            echo "builder ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/builder
+        fi
+
+        # Prepare repo and build as 'builder'
+        su - builder -c '
+            cd ~
+            # Clone only if not already cloned
+            [ ! -d qtile-extras ] && git clone https://aur.archlinux.org/qtile-extras.git
+            cd qtile-extras
+
+            # Get missing PGP key (58A9AA7C86727DF7 is needed for qtile-extras)
+            gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 58A9AA7C86727DF7
+
+            # Build and install
+            makepkg -si --noconfirm --nocheck
+        '
+        userdel builder
+        rm -r /home/builder
+
 
     }
 
