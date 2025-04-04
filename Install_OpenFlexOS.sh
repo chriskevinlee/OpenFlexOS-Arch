@@ -107,16 +107,11 @@
         echo "Installing Vosk inside virtual environment..."
         pip install vosk
 
-        clear
-        echo "installing dmenu"
-        sleep 20
         git clone https://github.com/chriskevinlee/dmenu.git
         cd dmenu
         sudo make clean install
         sudo make install
         cd
-        echo "dmenu shoud be installed"
-        sleep 20
 
         # Ensure base-devel and git are installed
         pacman -Sy --noconfirm --needed base-devel git
