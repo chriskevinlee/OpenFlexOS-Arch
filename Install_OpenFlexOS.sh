@@ -78,6 +78,7 @@
         pacman --noconfirm --needed -S libepoxy
         pacman --noconfirm --needed -S libev
         pacman --noconfirm --needed -S uthash
+        pacman --noconfirm --needed -S base-devel
 
         cd /tmp
         git clone https://github.com/FT-Labs/picom.git
