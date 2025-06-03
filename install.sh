@@ -58,7 +58,7 @@ select choice in "${options[@]}"; do
             bash ./modules/Miscellaneous_Configs.sh
             clear
 
-            echo ">> Copy configs to users or add a new user..."
+            echo ">> Copy Qtile configs to users or add a new user..."
             bash ./modules/Users.sh
             clear
             ;;
@@ -79,7 +79,7 @@ select choice in "${options[@]}"; do
             bash ./modules/Miscellaneous_Configs.sh
             clear
 
-            echo ">> Copy configs to users or add a new user..."
+            echo ">> Copy OpenBox configs to users or add a new user..."
             bash ./modules/Users.sh
             clear
             ;;
