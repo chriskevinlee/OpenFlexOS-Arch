@@ -1,6 +1,12 @@
 #!/bin/bash
 clear
 
+if [[ ! -d OpenFlexOS-Configs ]]; then
+    echo "OpenFlexOS-Configs directory does not exist, Make sure you have OpenFlexOS-Configs in the root of the script $0"
+    echo "See https://github.com/chriskevinlee/OpenFlexOS-Configs"
+    exit 0
+fi
+
 # Ensure script is run with root privileges
 if [ "$(id -u)" -ne 0 ]; then
     echo "Please run this script with sudo:"
