@@ -35,6 +35,7 @@ done
 clear
 
 git clone https://github.com/chriskevinlee/OpenFlexOS-Configs
+clear
 
 if [[ ! -d OpenFlexOS-Configs ]]; then
     echo "OpenFlexOS-Configs directory does not exist, Make sure you have OpenFlexOS-Configs in the root of the script $0"
@@ -42,7 +43,6 @@ if [[ ! -d OpenFlexOS-Configs ]]; then
     exit 0
 fi
 
-clear
 # Menu options
 options=("Qtile" "OpenBox" "Exit Installation Script" "Reboot" "Power Off")
 PS3="Please choose an option (1-${#options[@]}): "
