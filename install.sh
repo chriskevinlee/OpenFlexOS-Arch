@@ -35,7 +35,7 @@ done
 clear
 
 # Menu options
-options=("Qtile" "Exit Installation Script" "Reboot" "Power Off")
+options=("Qtile" "OpenBox" "Exit Installation Script" "Reboot" "Power Off")
 PS3="Please choose an option (1-${#options[@]}): "
 echo "Please Choose a Window Manager to install or a action to perform"
 
@@ -58,10 +58,30 @@ select choice in "${options[@]}"; do
             bash ./modules/Miscellaneous_Configs.sh
             clear
 
-            echo ">> Copy configs to users or add a new user..."
+            echo ">> Copy Qtile configs to users or add a new user..."
             bash ./modules/Users.sh
             clear
+            ;;
+        "OpenBox")
+            echo ">> Installing OpenBox..."
+            bash ./modules/WindowManagers.sh -O
+            clear
+            
+            echo ">> Copying OpenBox configs to /etc/skel..."
+            bash ./modules/WM_to_Skell.sh -O
+            clear
+            
+            echo ">> Installing additional packages..."
+            bash ./modules/Packages.sh
+            clear
+            
+            echo ">> Applying miscellaneous configurations..."
+            bash ./modules/Miscellaneous_Configs.sh
+            clear
 
+            echo ">> Copy OpenBox configs to users or add a new user..."
+            bash ./modules/Users.sh
+            clear
             ;;
         "Exit Installation Script")
             echo ">> Exiting installation script..."
