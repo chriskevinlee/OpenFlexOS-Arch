@@ -68,7 +68,7 @@ select choice in "${options[@]}"; do
             clear
 
             echo ">> Copy Qtile configs to users or add a new user..."
-            bash ./modules/Users.sh
+            bash ./modules/Users.sh -Q
             clear
             ;;
         "OpenBox")
@@ -89,7 +89,7 @@ select choice in "${options[@]}"; do
             clear
 
             echo ">> Copy OpenBox configs to users or add a new user..."
-            bash ./modules/Users.sh
+            bash ./modules/Users.sh -O
             clear
             ;;
         "Exit Installation Script")
