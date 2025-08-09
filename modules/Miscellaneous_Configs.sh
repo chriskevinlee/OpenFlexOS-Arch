@@ -32,7 +32,9 @@ cp ./OpenFlexOS-Configs/dot.gtkrc-2.0 /etc/skel/.gtkrc-2.0
 cp ./OpenFlexOS-Configs/Generate_gtk_theme.sh /etc/skel/Generate_gtk_theme.sh
 cp ./OpenFlexOS-Configs/Apply_theme.sh /etc/skel/Apply_theme.sh
 cp -r ./OpenFlexOS-Configs/config/ohmyposh/ /etc/skel/.config/
-mkdir 
+
+cp -r ./OpenFlexOS-Configs/config/obmenu-generator /etc/skel/.config/
+
 
 
 
