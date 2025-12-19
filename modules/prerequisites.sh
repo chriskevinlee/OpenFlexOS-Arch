@@ -15,7 +15,7 @@ case "${yn,,}" in
 
 [openflexos]
 SigLevel = Optional TrustAll
-Server = https://chriskevinlee.github.io/OpenFlexOS-ArchPackages/$arch
+Server = https://chriskevinlee.github.io/OpenFlexOS-ArchPackages/\$arch
 EOF'
       echo "✅ Repository added successfully."
     fi
