@@ -24,7 +24,6 @@ config_dirs=(
     "gtk-3.0"
     "gtk-4.0"
     "Kvantum"
-    "MyThemes"
     "obmenu-generator"
     "ohmyposh"
     "picom"
@@ -125,11 +124,6 @@ if [[ $wm_dir == "openbox" ]]; then
         ln -sf "$gtk4" "/etc/skel/.config/gtk-4.0/$(basename "$gtk4")"
     done
 
-    # MyThemes
-    for mythemes in /etc/openflexos/home/user/config/MyThemes/*; do
-        ln -sf "$mythemes" "/etc/skel/.config/MyThemes/$(basename "$mythemes")"
-    done
-
     # Picom
     for picom in /etc/openflexos/home/user/config/picom/*; do
         ln -sf "$picom" "/etc/skel/.config/picom/$(basename "$picom")"
@@ -179,7 +173,7 @@ if [[ $wm_dir == "qtile" ]]; then
     done
 
     # Menu scripts
-    for qtilescriptsmenu in OpenFlexOS_Power.sh OpenFlexOS_SSH.sh OpenFlexOS_WebBookmarker.sh OpenFlexOS_CleanUp.sh UpdateTheme; do
+    for qtilescriptsmenu in OpenFlexOS_Applications.sh OpenFlexOS_Power.sh OpenFlexOS_SSH.sh OpenFlexOS_WebBookmarker.sh OpenFlexOS_CleanUp.sh UpdateTheme; do
         clean_name="${qtilescriptsmenu#OpenFlexOS_}"
         clean_name="${clean_name%.sh}"
         ln -sf "/etc/openflexos/usr/local/bin/$qtilescriptsmenu" \
@@ -192,7 +186,7 @@ if [[ $wm_dir == "qtile" ]]; then
     done
 
     # Shared configs
-    for dir in ohmyposh sxiv/exec web_bookmarks dunst alacritty gtk-3.0 gtk-4.0 MyThemes picom qt5ct qt6ct; do
+    for dir in ohmyposh sxiv/exec web_bookmarks dunst alacritty gtk-3.0 gtk-4.0 picom qt5ct qt6ct; do
         for file in /etc/openflexos/home/user/config/$dir/*; do
             ln -sf "$file" "/etc/skel/.config/$dir/$(basename "$file")"
         done
