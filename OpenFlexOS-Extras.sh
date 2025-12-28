@@ -80,6 +80,7 @@ select app in "${packages[@]}"; do
             ;;
         "Gparted")
         sudo pacman -S --noconfirm gparted
+	clear
         ;;
         "KDE Connect")
         sudo pacman -S --noconfirm kdeconnect
