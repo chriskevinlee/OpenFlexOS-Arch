@@ -193,7 +193,7 @@ select app in "${packages[@]}"; do
 	echo "If nxserverstartup.service is started and enabled, this mahcine may be visable on the network"
 	echo "If you select no you will need to either start this service with systemctl start nxserverstart"
 	echo "or run /usr/NX/bin/nxserver --startup at a terminal or tty"
-	read -p "Would you like to start and enable this service?" yn
+	read -p "Would you like to start and enable this service? (y/n)" yn
 	
 	if [[ $yn = y ]]; then
 		sudo systemctl enable --now nxserverstartup.service
