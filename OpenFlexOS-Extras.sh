@@ -112,11 +112,12 @@ select app in "${packages[@]}"; do
         cleanup_aur_builder
         clear
 
-	read -p "Would you like to start and enable anydesk service?" yn
+	read -p "Would you like to start and enable anydesk service? (y/n)" yn
 	
 	if [[ $yn = y ]]; then
 		sudo systemctl enable --now anydesk
 	fi
+	clear
     ;;
         "NoMachine(AUR)")
         ensure_aur_builder
