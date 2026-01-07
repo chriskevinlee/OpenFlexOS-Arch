@@ -163,6 +163,13 @@ if [[ $wm_dir == "qtile" ]]; then
         ln -sf "$qtilerofi" "/etc/skel/.config/qtile/rofi/$(basename "$qtilerofi")"
     done
 
+
+    # Conky
+    for qtileconky in /etc/openflexos/home/user/config/conky/*; do
+        ln -sf "$qtileconky" "/etc/skel/.config/qtile/conky/$(basename "$qtileconky")"
+    done
+
+
     # Scripts (exclude menu-only ones)
     for qtilescripts in /etc/openflexos/usr/local/bin/*; do
         case "$(basename "$qtilescripts")" in
