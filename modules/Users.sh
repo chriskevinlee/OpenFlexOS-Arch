@@ -166,7 +166,7 @@ if [[ $wm_dir == "qtile" ]]; then
 
     # Conky
     for qtileconky in /etc/openflexos/home/user/config/conky/*; do
-        ln -sf "$qtileconky" "/etc/skel/.config/qtile/conky/$(basename "$qtileconky")"
+        ln -sf "$qtileconky" "/etc/skel/.config/conky/$(basename "$qtileconky")"
     done
 
 
