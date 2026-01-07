@@ -32,6 +32,7 @@ config_dirs=(
     "wallpapers/wallpaper_cave_nature"
     "sxiv/exec"
     "web_bookmarks"
+    "conky"
 )
 
 # WM-specific directories
