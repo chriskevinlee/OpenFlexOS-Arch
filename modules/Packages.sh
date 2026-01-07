@@ -77,6 +77,7 @@ powerline-fonts
 awesome-terminal-fonts 
 nerd-fonts
 lxappearance
+conky
 EOF
 }
 
