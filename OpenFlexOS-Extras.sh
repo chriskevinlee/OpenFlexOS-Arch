@@ -56,7 +56,7 @@ cleanup_aur_builder() {
 }
 
 
-packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)")
+packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)")
 PS3="Please choose an option (1-${#packages[@]}): "
 echo "Please Choose a package to install"
 
@@ -205,6 +205,12 @@ select app in "${packages[@]}"; do
         "Sublime-Text(AUR)")
         ensure_aur_builder
         build_aur_pkg sublime-text-4
+        cleanup_aur_builder
+        clear
+        ;;
+        "yay(AUR)")
+        ensure_aur_builder
+        build_aur_pkg yay
         cleanup_aur_builder
         clear
         ;;
