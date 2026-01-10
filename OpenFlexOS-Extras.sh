@@ -56,7 +56,7 @@ cleanup_aur_builder() {
 }
 
 
-packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)")
+packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)" "Balena Etcher(AUR)")
 PS3="Please choose an option (1-${#packages[@]}): "
 echo "Please Choose a package to install"
 
@@ -211,6 +211,12 @@ select app in "${packages[@]}"; do
         "yay(AUR)")
         ensure_aur_builder
         build_aur_pkg yay
+        cleanup_aur_builder
+        clear
+        ;;
+        "Balena Etcher(AUR)")
+        ensure_aur_builder
+        build_aur_pkg balena-etcher
         cleanup_aur_builder
         clear
         ;;
