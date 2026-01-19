@@ -56,7 +56,7 @@ cleanup_aur_builder() {
 }
 
 
-packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)" "Balena Etcher(AUR)")
+packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)" "Balena Etcher(AUR)" "WoeUSB(AUR)")
 PS3="Please choose an option (1-${#packages[@]}): "
 echo "Please Choose a package to install"
 
@@ -217,6 +217,12 @@ select app in "${packages[@]}"; do
         "Balena Etcher(AUR)")
         ensure_aur_builder
         build_aur_pkg balena-etcher
+        cleanup_aur_builder
+        clear
+        ;;
+        "WoeUSB(AUR)")
+        ensure_aur_builder
+        build_aur_pkg woeusb-ng
         cleanup_aur_builder
         clear
         ;;
