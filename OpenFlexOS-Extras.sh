@@ -56,7 +56,7 @@ cleanup_aur_builder() {
 }
 
 
-packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "KDE Connect" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)" "Balena Etcher(AUR)" "WoeUSB(AUR)" "KDocker(AUR)")
+packages=("VirtualBox" "VLC" "FileZilla" "GIMP" "Gparted" "qBittorrent" "Audacity" "Obsidian" "Brave(AUR)" "AnyDesk(AUR)" "NoMachine(AUR)" "Sublime-Text(AUR)" "yay(AUR)" "Balena Etcher(AUR)" "WoeUSB(AUR)" "KDocker(AUR)" "LocalSend(AUR)")
 PS3="Please choose an option (1-${#packages[@]}): "
 echo "Please Choose a package to install"
 
@@ -81,10 +81,6 @@ select app in "${packages[@]}"; do
         "Gparted")
         sudo pacman -S --noconfirm gparted
 	clear
-        ;;
-        "KDE Connect")
-        sudo pacman -S --noconfirm kdeconnect
-        clear
         ;;
         "qBittorrent")
         sudo pacman -S --noconfirm qbittorrent
@@ -229,6 +225,12 @@ select app in "${packages[@]}"; do
         "KDocker(AUR)")
         ensure_aur_builder
         build_aur_pkg kdocker
+        cleanup_aur_builder
+        clear
+        ;;
+        "LocalSend(AUR)")
+        ensure_aur_builder
+        build_aur_pkg localsend
         cleanup_aur_builder
         clear
         ;;
