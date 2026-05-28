@@ -140,6 +140,11 @@ if [[ $wm_dir == "openbox" ]]; then
         ln -sf "$qt6" "/etc/skel/.config/qt6ct/$(basename "$qt6")"
     done
 
+    # Dmenu Theme
+    for file in themes.json dmenu_theme.conf; do
+    ln -sf "/etc/openflexos/home/user/config/$file" \
+           "/etc/skel/.config/$file"
+    done
     # Dotfiles (ALL dot.* files)
     for userhomedots in /etc/openflexos/home/user/dot.*; do
         ln -sf "$userhomedots" "/etc/skel/.${userhomedots#*.}"
@@ -150,6 +155,13 @@ if [[ $wm_dir == "openbox" ]]; then
         ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_nature/$(basename "$wallpapers")"
     done
 fi
+
+
+    # Obmenu
+    for file in schema.pl; do
+    ln -sf "/etc/openflexos/home/user/config/obmenu-generator/$file" \
+           "/etc/skel/.config/obmenu-generator/$file"
+    done
 
 if [[ $wm_dir == "qtile" ]]; then
 
