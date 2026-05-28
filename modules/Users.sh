@@ -24,7 +24,7 @@ config_dirs=(
     "gtk-3.0"
     "gtk-4.0"
     "Kvantum"
-    "obmenu-generator"
+    "openbox/obmenu-generator"
     "ohmyposh"
     "picom"
     "qt5ct"
@@ -158,9 +158,9 @@ fi
 
 
     # Obmenu
-    for file in schema.pl; do
-    ln -sf "/etc/openflexos/home/user/config/obmenu-generator/$file" \
-           "/etc/skel/.config/obmenu-generator/$file"
+    for file in config.pl schema.pl; do
+    ln -sf "/etc/openflexos/home/user/config/openbox/obmenu-generator/$file" \
+           "/etc/skel/.config/openbox/obmenu-generator/$file"
     done
 
 if [[ $wm_dir == "qtile" ]]; then
