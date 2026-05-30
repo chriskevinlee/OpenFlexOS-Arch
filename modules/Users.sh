@@ -72,11 +72,6 @@ if [[ $wm_dir == "openbox" ]]; then
     ln -sf "$openboxfile" "/etc/skel/.config/openbox/$(basename "$openboxfile")"
     done
 
-
-   # for openboxfile in /etc/openflexos/home/user/config/openbox/*; do
-   #     ln -sf "$openboxfile" "/etc/skel/.config/openbox/$(basename "$openboxfile")"
-   # done
-
     # Scripts (ALL files)
     for openboxscripts in /etc/openflexos/usr/local/bin/*; do
         ln -sf "$openboxscripts" "/etc/skel/.config/openbox/scripts/$(basename "$openboxscripts")"
