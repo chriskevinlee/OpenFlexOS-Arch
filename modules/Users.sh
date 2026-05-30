@@ -67,8 +67,15 @@ if [[ $wm_dir == "openbox" ]]; then
 
     # Main configs (ALL files)
     for openboxfile in /etc/openflexos/home/user/config/openbox/*; do
-        ln -sf "$openboxfile" "/etc/skel/.config/openbox/$(basename "$openboxfile")"
+    [[ "$(basename "$openboxfile")" == "obmenu-generator" ]] && continue
+
+    ln -sf "$openboxfile" "/etc/skel/.config/openbox/$(basename "$openboxfile")"
     done
+
+
+   # for openboxfile in /etc/openflexos/home/user/config/openbox/*; do
+   #     ln -sf "$openboxfile" "/etc/skel/.config/openbox/$(basename "$openboxfile")"
+   # done
 
     # Scripts (ALL files)
     for openboxscripts in /etc/openflexos/usr/local/bin/*; do
