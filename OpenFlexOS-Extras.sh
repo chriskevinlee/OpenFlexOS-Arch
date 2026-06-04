@@ -79,7 +79,7 @@ select app in "${packages[@]}"; do
         clear
             ;;
         "Gparted")
-        sudo pacman -S --noconfirm gparted
+	sudo pacman -S --noconfirm gparted ntfs-3g dosfstools exfatprogs btrfs-progs xfsprogs f2fs-tools jfsutils nilfs-utils  udftools mtools e2fsprogs bcachefs-tools
 	clear
         ;;
         "qBittorrent")
