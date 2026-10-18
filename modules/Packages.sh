@@ -19,7 +19,6 @@ lsd
 bat
 pavucontrol-qt
 pipewire-pulse
-git
 qt5-graphicaleffects
 qt5-quickcontrols2
 qt5-svg
@@ -59,7 +58,6 @@ pacman-contrib
 pkgfile
 gcc
 pkg-config
-python
 meson
 ninja
 xcb-util
@@ -70,7 +68,6 @@ libconfig
 libepoxy
 libev
 uthash
-base-devel
 vim
 vim-nerdtree
 powerline-fonts 
@@ -80,9 +77,6 @@ lxappearance
 conky
 EOF
 }
-
-echo "[+] Installing base tools..."
-pacman -Sy --noconfirm --needed git base-devel
 
 # Install all
 while read -r package; do
