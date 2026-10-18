@@ -255,9 +255,9 @@ configure_nomachine() {
 
 packages=(
     'VirtualBox' 'VLC' 'FileZilla' 'GIMP' 'Gparted' 'qBittorrent'
-    'Audacity' 'Obsidian' 'Brave(AUR)' 'AnyDesk(AUR)'
+    'Audacity' 'Obsidian' 'KDE ISO Image Writer' 'Brave(AUR)' 'AnyDesk(AUR)'
     'NoMachine(AUR)' 'Sublime-Text(AUR)' 'yay(AUR)'
-    'Balena Etcher(AUR)' 'WoeUSB(AUR)' 'KDocker(AUR)'
+    'WoeUSB(AUR)' 'KDocker(AUR)'
     'LocalSend(AUR)' 'Exit'
 )
 
@@ -284,6 +284,7 @@ while true; do
         'qBittorrent') install_repo qbittorrent || result=1 ;;
         'Audacity') install_repo audacity || result=1 ;;
         'Obsidian') install_repo obsidian || result=1 ;;
+        'KDE ISO Image Writer') install_repo isoimagewriter || result=1 ;;
         'Brave(AUR)') install_aur brave-bin || result=1 ;;
         'AnyDesk(AUR)')
             if install_aur yp-tools anydesk-bin; then
@@ -300,7 +301,6 @@ while true; do
             ;;
         'Sublime-Text(AUR)') install_aur sublime-text-4 || result=1 ;;
         'yay(AUR)') install_aur yay || result=1 ;;
-        'Balena Etcher(AUR)') install_aur balena-etcher || result=1 ;;
         'WoeUSB(AUR)') install_aur woeusb-ng || result=1 ;;
         'KDocker(AUR)') install_aur kdocker || result=1 ;;
         'LocalSend(AUR)') install_aur localsend || result=1 ;;
