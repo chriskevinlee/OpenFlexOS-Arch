@@ -98,17 +98,33 @@ cleanup_aur_builder() {
     fi
 }
 
+# Bootstrap yay with the existing unprivileged AUR build mechanism.
+# Thereafter yay resolves both repository and AUR dependencies as the real user.
+ensure_yay() {
+    if command -v yay >/dev/null 2>&1; then
+        return 0
+    fi
+
+    msg "Bootstrapping yay for automatic AUR dependency resolution"
+    local result=0
+    if ensure_aur_builder; then
+        build_aur_pkg yay || result=1
+        cleanup_aur_builder || result=1
+    else
+        result=1
+        cleanup_aur_builder || true
+    fi
+    (( result == 0 )) && command -v yay >/dev/null 2>&1
+}
+
 install_aur() {
-    local result=0 pkg
-    ensure_aur_builder || return 1
-    for pkg in "$@"; do
-        if ! build_aur_pkg "$pkg"; then
-            result=1
-            break
-        fi
-    done
-    cleanup_aur_builder || result=1
-    return "$result"
+    (( $# > 0 )) || return 0
+    ensure_yay || { err "Unable to install yay"; return 1; }
+
+    msg "Installing AUR package(s) with dependency resolution: $*"
+    # yay must run as the invoking user, not root.
+    # Let users review PKGBUILDs; do not disable source-integrity checks.
+    yay -S --needed --noconfirm "$@"
 }
 
 install_repo() {
