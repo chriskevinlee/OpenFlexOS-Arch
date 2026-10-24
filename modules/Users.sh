@@ -24,7 +24,6 @@ config_dirs=(
     "gtk-3.0"
     "gtk-4.0"
     "Kvantum"
-    "openbox/obmenu-generator"
     "ohmyposh"
     "picom"
     "qt5ct"
@@ -38,6 +37,7 @@ config_dirs=(
 # WM-specific directories
 if [[ $wm_dir == "openbox" ]]; then
     config_dirs+=(
+    	"$wm_dir/obmenu-generator"
         "$wm_dir/rofi"
         "$wm_dir/scripts"
         "$wm_dir/sounds"
@@ -156,14 +156,15 @@ if [[ $wm_dir == "openbox" ]]; then
     for wallpapers in /etc/openflexos/home/user/config/wallpapers/wallpaper_cave_nature/*; do
         ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_nature/$(basename "$wallpapers")"
     done
-fi
-
 
     # Obmenu
     for file in config.pl schema.pl; do
     ln -sf "/etc/openflexos/home/user/config/openbox/obmenu-generator/$file" \
            "/etc/skel/.config/openbox/obmenu-generator/$file"
     done
+
+fi
+
 
 if [[ $wm_dir == "qtile" ]]; then
 
