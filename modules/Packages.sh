@@ -32,7 +32,7 @@ zsh-autosuggestions
 wget
 jq
 firefox
-flameshot
+ksnip
 htop
 caja
 xarchiver
