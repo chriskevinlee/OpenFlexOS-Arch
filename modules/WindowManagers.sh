@@ -2,7 +2,9 @@ while getopts 'QO' configs; do
 case $configs in
 	Q )
 		pacman --noconfirm --needed -S qtile
+		rm /usr/share/wayland-sessions/qtile-generic.desktop
 		rm /usr/share/wayland-sessions/qtile-wayland.desktop
+		rm /usr/share/xsessions/qtile-generic.desktop
 		PKG=qtile-extras
 
 		BUILD_USER=_aurbuilder

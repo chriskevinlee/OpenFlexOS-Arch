@@ -31,3 +31,5 @@ EOF'
     echo "⚠️ Invalid response. Please enter y or n."
     ;;
 esac
+
+pacman -S --noconfirm base-devel git sudo  python python-pip pkgconf
