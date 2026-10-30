@@ -75,6 +75,7 @@ awesome-terminal-fonts
 nerd-fonts
 lxappearance
 conky
+less
 EOF
 }
 
