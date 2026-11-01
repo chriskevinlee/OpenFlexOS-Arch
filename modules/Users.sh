@@ -28,7 +28,7 @@ config_dirs=(
     "picom"
     "qt5ct"
     "qt6ct"
-    "wallpapers/wallpaper_cave_nature"
+    "wallpapers/wallpaper_cave_arch"
     "sxiv/exec"
     "web_bookmarks"
     "conky"
@@ -153,8 +153,8 @@ if [[ $wm_dir == "openbox" ]]; then
     done
 
     # Wallpapers
-    for wallpapers in /etc/openflexos/home/user/config/wallpapers/wallpaper_cave_nature/*; do
-        ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_nature/$(basename "$wallpapers")"
+    for wallpapers in /etc/openflexos/home/user/config/wallpapers/wallpaper_cave_arch/*; do
+        ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_arch/$(basename "$wallpapers")"
     done
 
     # Obmenu
@@ -226,8 +226,8 @@ if [[ $wm_dir == "qtile" ]]; then
     done
 
     # Wallpapers
-    for wallpapers in /etc/openflexos/home/user/config/wallpapers/wallpaper_cave_nature/*; do
-        ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_nature/$(basename "$wallpapers")"
+    for wallpapers in /etc/openflexos/home/user/config/wallpapers/wallpaper_cave_arch/*; do
+        ln -sf "$wallpapers" "/etc/skel/.config/wallpapers/wallpaper_cave_arch/$(basename "$wallpapers")"
     done
 fi
 
