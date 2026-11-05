@@ -303,7 +303,7 @@ while true; do
         'yay(AUR)') install_aur yay || result=1 ;;
         'WoeUSB(AUR)') install_aur woeusb-ng || result=1 ;;
         'KDocker(AUR)') install_aur kdocker || result=1 ;;
-        'LocalSend(AUR)') install_aur localsend || result=1 ;;
+        'LocalSend(AUR)') install_aur localsend-bin || result=1 ;;
     esac
 
     if (( result == 0 )); then
