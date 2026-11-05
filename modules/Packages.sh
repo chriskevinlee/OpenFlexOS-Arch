@@ -76,6 +76,17 @@ nerd-fonts
 lxappearance
 conky
 less
+gvfs
+gvfs-mtp
+libmtp
+gvfs-afc
+libimobiledevice
+usbmuxd
+gvfs-gphoto2
+libgphoto2
+udisks2
+gvfs-smb
+gvfs-nfs
 EOF
 }
 
