@@ -258,19 +258,12 @@ packages=(
     'Audacity' 'Obsidian' 'KDE ISO Image Writer' 'Brave(AUR)' 'AnyDesk(AUR)'
     'NoMachine(AUR)' 'Sublime-Text(AUR)' 'yay(AUR)'
     'WoeUSB(AUR)' 'KDocker(AUR)'
-    'LocalSend(AUR)' 'Exit'
+    'LocalSend(AUR)' 'Install All' 'Exit'
 )
 
-while true; do
-    printf '\n=== OpenFlexOS Package Installer ===\n'
-    PS3="Please choose an option (1-${#packages[@]}): "
-    select app in "${packages[@]}"; do
-        [[ -n "$app" ]] || { echo 'Invalid choice.'; continue; }
-        break
-    done
-    [[ "$app" == 'Exit' ]] && break
-
-    result=0
+install_selected_app() {
+    local app="$1"
+    local result=0
     case "$app" in
         'VirtualBox') install_virtualbox || result=1 ;;
         'VLC') install_repo vlc || result=1 ;;
@@ -310,6 +303,102 @@ while true; do
         msg "$app completed successfully"
     else
         err "$app failed; review the messages above"
+    fi
+    return "$result"
+}
+
+# Check the primary package for each menu entry against pacman's local database.
+# Menu entries such as Gparted include additional dependencies, but their
+# Installed label refers to the main application only.
+is_app_installed() {
+    local pkg
+    case "$1" in
+        'VirtualBox') pkg=virtualbox ;;
+        'VLC') pkg=vlc ;;
+        'FileZilla') pkg=filezilla ;;
+        'GIMP') pkg=gimp ;;
+        'Gparted') pkg=gparted ;;
+        'qBittorrent') pkg=qbittorrent ;;
+        'Audacity') pkg=audacity ;;
+        'Obsidian') pkg=obsidian ;;
+        'KDE ISO Image Writer') pkg=isoimagewriter ;;
+        'Brave(AUR)') pkg=brave-bin ;;
+        'AnyDesk(AUR)') pkg=anydesk-bin ;;
+        'NoMachine(AUR)') pkg=nomachine ;;
+        'Sublime-Text(AUR)') pkg=sublime-text-4 ;;
+        'yay(AUR)') pkg=yay ;;
+        'WoeUSB(AUR)') pkg=woeusb-ng ;;
+        'KDocker(AUR)') pkg=kdocker ;;
+        'LocalSend(AUR)') pkg=localsend-bin ;;
+        *) return 1 ;;
+    esac
+    pacman -Qq -- "$pkg" &>/dev/null
+}
+
+while true; do
+    printf '\n=== OpenFlexOS Package Installer ===\n'
+    for (( i=0; i<${#packages[@]}; i++ )); do
+        if is_app_installed "${packages[i]}"; then
+            printf '%2d) %s (Installed)\n' "$((i+1))" "${packages[i]}"
+        else
+            printf '%2d) %s\n' "$((i+1))" "${packages[i]}"
+        fi
+    done
+    printf '\nEnter numbers separated by commas or spaces, or all.\n'
+    if ! read -r -p 'Selection: ' selection; then
+        printf '\n'
+        break
+    fi
+
+    # Accept commas and/or spaces, keeping the user's requested order.
+    selection="${selection//,/ }"
+    read -r -a choices <<< "$selection"
+    (( ${#choices[@]} > 0 )) || { err 'Enter at least one option.'; continue; }
+
+    selected_apps=()
+    valid=1
+    for choice in "${choices[@]}"; do
+        if [[ "${choice,,}" == all ]]; then
+            choice=18
+        fi
+        if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( ${#choice} > 6 )); then
+            err "Invalid selection: $choice"
+            valid=0
+            break
+        fi
+        number=$((10#$choice))
+        if (( number < 1 || number > ${#packages[@]} )); then
+            err "Invalid selection: $choice"
+            valid=0
+            break
+        fi
+        selected_apps+=("${packages[number-1]}")
+    done
+    (( valid )) || continue
+
+    # Exit and Install All are standalone commands, not package selections.
+    if [[ " ${selected_apps[*]} " == *' Exit '* ]]; then
+        if (( ${#selected_apps[@]} != 1 )); then
+            err 'Exit must be selected on its own.'
+            continue
+        fi
+        break
+    fi
+    if [[ " ${selected_apps[*]} " == *' Install All '* ]]; then
+        if (( ${#selected_apps[@]} != 1 )); then
+            err 'Install All must be selected on its own.'
+            continue
+        fi
+        selected_apps=("${packages[@]:0:${#packages[@]}-2}")
+    fi
+
+    failures=0
+    for app in "${selected_apps[@]}"; do
+        msg "Starting: $app"
+        install_selected_app "$app" || ((failures+=1))
+    done
+    if (( failures > 0 )); then
+        err "$failures installation(s) failed."
     fi
     pause
 done
