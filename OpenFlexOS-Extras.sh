@@ -344,7 +344,7 @@ while true; do
             printf '%2d) %s\n' "$((i+1))" "${packages[i]}"
         fi
     done
-    printf '\nEnter numbers separated by commas or spaces, or all.\n'
+    printf '\nEnter numbers separated by commas or spaces; use 18 -4 -7 to exclude packages from Install All.\n'
     if ! read -r -p 'Selection: ' selection; then
         printf '\n'
         break
@@ -357,11 +357,25 @@ while true; do
 
     selected_apps=()
     valid=1
+    install_all=0
+    exit_selected=0
+    excluded_numbers=()
+
     for choice in "${choices[@]}"; do
         if [[ "${choice,,}" == all ]]; then
             choice=18
         fi
-        if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( ${#choice} > 6 )); then
+        if [[ "$choice" =~ ^-([0-9]{1,6})$ ]]; then
+            number=$((10#${BASH_REMATCH[1]}))
+            if (( number < 1 || number > ${#packages[@]}-2 )); then
+                err "Invalid exclusion: $choice"
+                valid=0
+                break
+            fi
+            excluded_numbers+=("$number")
+            continue
+        fi
+        if [[ ! "$choice" =~ ^[0-9]{1,6}$ ]]; then
             err "Invalid selection: $choice"
             valid=0
             break
@@ -372,24 +386,40 @@ while true; do
             valid=0
             break
         fi
-        selected_apps+=("${packages[number-1]}")
+        case "${packages[number-1]}" in
+            'Install All') install_all=1 ;;
+            'Exit') exit_selected=1 ;;
+            *) selected_apps+=("${packages[number-1]}") ;;
+        esac
     done
     (( valid )) || continue
 
-    # Exit and Install All are standalone commands, not package selections.
-    if [[ " ${selected_apps[*]} " == *' Exit '* ]]; then
-        if (( ${#selected_apps[@]} != 1 )); then
+    if (( exit_selected )); then
+        if (( ${#choices[@]} != 1 )); then
             err 'Exit must be selected on its own.'
             continue
         fi
         break
     fi
-    if [[ " ${selected_apps[*]} " == *' Install All '* ]]; then
-        if (( ${#selected_apps[@]} != 1 )); then
-            err 'Install All must be selected on its own.'
+    if (( install_all )); then
+        if (( ${#selected_apps[@]} > 0 )); then
+            err 'Install All cannot be combined with individual package selections; use -N to exclude packages.'
             continue
         fi
-        selected_apps=("${packages[@]:0:${#packages[@]}-2}")
+        selected_apps=()
+        for (( i=1; i<=${#packages[@]}-2; i++ )); do
+            skip=0
+            for number in "${excluded_numbers[@]}"; do
+                if (( i == number )); then
+                    skip=1
+                    break
+                fi
+            done
+            (( skip )) || selected_apps+=("${packages[i-1]}")
+        done
+    elif (( ${#excluded_numbers[@]} > 0 )); then
+        err 'Exclusions (-N) require Install All (18 or all).'
+        continue
     fi
 
     failures=0
