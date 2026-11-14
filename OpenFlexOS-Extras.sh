@@ -253,52 +253,93 @@ configure_nomachine() {
     fi
 }
 
-packages=(
-    'VirtualBox' 'VLC' 'FileZilla' 'GIMP' 'Gparted' 'qBittorrent'
-    'Audacity' 'Obsidian' 'KDE ISO Image Writer' 'Brave(AUR)' 'AnyDesk(AUR)'
-    'NoMachine(AUR)' 'Sublime-Text(AUR)' 'yay(AUR)'
-    'WoeUSB(AUR)' 'KDocker(AUR)'
-    'LocalSend(AUR)' 'Install All' 'Exit'
-)
+# Special installers: use these only when an app needs additional setup.
+install_anydesk() {
+    install_aur yp-tools anydesk-bin || return 1
+    local yn
+    read -r -p 'Enable and start AnyDesk service? (y/N) ' yn
+    if [[ "$yn" =~ ^[Yy]$ ]]; then
+        sudo systemctl enable --now anydesk || return 1
+    fi
+    return 0
+}
+
+install_nomachine() {
+    install_aur nomachine && configure_nomachine
+}
+
+install_handy() {
+    install_repo python-huggingface-hub || return 1
+    install_aur handy-bin || return 1
+    msg 'Downloading Handy Parakeet TDT-CTC 110M model'
+    hf download handy-computer/parakeet-tdt_ctc-110m-gguf \
+        parakeet-tdt_ctc-110m-Q8_0.gguf \
+        --cache-dir "$HOME/.cache/huggingface/hub"
+}
+
+# Application registry: menu labels, installed checks and commands share one entry.
+# The first package for add_repo/add_aur is used for the Installed label.
+declare -a packages=()
+declare -A app_index=() app_primary=()
+
+add_app() {
+    local label="$1" primary="$2"
+    shift 2
+    local index=${#packages[@]}
+    packages+=("$label")
+    app_index["$label"]=$index
+    app_primary["$label"]=$primary
+    # Preserve each command argument separately; no eval or shell splitting.
+    declare -g -a "app_command_$index"
+    local -n command_ref="app_command_$index"
+    command_ref=("$@")
+}
+
+add_repo() {
+    local label="$1"; shift
+    add_app "$label" "$1" install_repo "$@"
+}
+
+add_aur() {
+    local label="$1"; shift
+    add_app "$label" "$1" install_aur "$@"
+}
+
+# ============================================================
+# ADD OR REMOVE APPLICATIONS HERE
+# add_repo 'Display name' package [additional packages...]
+# add_aur  'Display name(AUR)' package [additional packages...]
+# add_app  'Display name' primary-package custom_install_function
+# ============================================================
+add_app  'VirtualBox' virtualbox install_virtualbox
+add_repo 'VLC' vlc
+add_repo 'FileZilla' filezilla
+add_repo 'GIMP' gimp
+add_repo 'Gparted' gparted ntfs-3g dosfstools exfatprogs btrfs-progs \
+    xfsprogs f2fs-tools jfsutils nilfs-utils udftools mtools \
+    e2fsprogs bcachefs-tools
+add_repo 'qBittorrent' qbittorrent
+add_repo 'Audacity' audacity
+add_repo 'Obsidian' obsidian
+add_repo 'KDE ISO Image Writer' isoimagewriter
+add_aur  'Brave(AUR)' brave-bin
+add_app  'AnyDesk(AUR)' anydesk-bin install_anydesk
+add_app  'NoMachine(AUR)' nomachine install_nomachine
+add_aur  'Sublime-Text(AUR)' sublime-text-4
+add_aur  'yay(AUR)' yay
+add_aur  'WoeUSB(AUR)' woeusb-ng
+add_aur  'KDocker(AUR)' kdocker
+add_aur  'LocalSend(AUR)' localsend-bin
+add_app  'Handy(AUR)' handy-bin install_handy
+
+# These options are always appended automatically.
+packages+=('Install All' 'Exit')
+INSTALL_ALL_NUMBER=$((${#packages[@]} - 1))
 
 install_selected_app() {
-    local app="$1"
-    local result=0
-    case "$app" in
-        'VirtualBox') install_virtualbox || result=1 ;;
-        'VLC') install_repo vlc || result=1 ;;
-        'FileZilla') install_repo filezilla || result=1 ;;
-        'GIMP') install_repo gimp || result=1 ;;
-        'Gparted')
-            install_repo gparted ntfs-3g dosfstools exfatprogs btrfs-progs \
-                xfsprogs f2fs-tools jfsutils nilfs-utils udftools mtools \
-                e2fsprogs bcachefs-tools || result=1
-            ;;
-        'qBittorrent') install_repo qbittorrent || result=1 ;;
-        'Audacity') install_repo audacity || result=1 ;;
-        'Obsidian') install_repo obsidian || result=1 ;;
-        'KDE ISO Image Writer') install_repo isoimagewriter || result=1 ;;
-        'Brave(AUR)') install_aur brave-bin || result=1 ;;
-        'AnyDesk(AUR)')
-            if install_aur yp-tools anydesk-bin; then
-                read -r -p 'Enable and start AnyDesk service? (y/N) ' yn
-                if [[ "$yn" =~ ^[Yy]$ ]]; then
-                    sudo systemctl enable --now anydesk || result=1
-                fi
-            else result=1; fi
-            ;;
-        'NoMachine(AUR)')
-            if install_aur nomachine; then
-                configure_nomachine || result=1
-            else result=1; fi
-            ;;
-        'Sublime-Text(AUR)') install_aur sublime-text-4 || result=1 ;;
-        'yay(AUR)') install_aur yay || result=1 ;;
-        'WoeUSB(AUR)') install_aur woeusb-ng || result=1 ;;
-        'KDocker(AUR)') install_aur kdocker || result=1 ;;
-        'LocalSend(AUR)') install_aur localsend-bin || result=1 ;;
-    esac
-
+    local app="$1" result=0
+    local -n command_ref="app_command_${app_index[$app]}"
+    "${command_ref[@]}" || result=1
     if (( result == 0 )); then
         msg "$app completed successfully"
     else
@@ -307,32 +348,10 @@ install_selected_app() {
     return "$result"
 }
 
-# Check the primary package for each menu entry against pacman's local database.
-# Menu entries such as Gparted include additional dependencies, but their
-# Installed label refers to the main application only.
+# The Installed label refers to the primary application package only.
 is_app_installed() {
-    local pkg
-    case "$1" in
-        'VirtualBox') pkg=virtualbox ;;
-        'VLC') pkg=vlc ;;
-        'FileZilla') pkg=filezilla ;;
-        'GIMP') pkg=gimp ;;
-        'Gparted') pkg=gparted ;;
-        'qBittorrent') pkg=qbittorrent ;;
-        'Audacity') pkg=audacity ;;
-        'Obsidian') pkg=obsidian ;;
-        'KDE ISO Image Writer') pkg=isoimagewriter ;;
-        'Brave(AUR)') pkg=brave-bin ;;
-        'AnyDesk(AUR)') pkg=anydesk-bin ;;
-        'NoMachine(AUR)') pkg=nomachine ;;
-        'Sublime-Text(AUR)') pkg=sublime-text-4 ;;
-        'yay(AUR)') pkg=yay ;;
-        'WoeUSB(AUR)') pkg=woeusb-ng ;;
-        'KDocker(AUR)') pkg=kdocker ;;
-        'LocalSend(AUR)') pkg=localsend-bin ;;
-        *) return 1 ;;
-    esac
-    pacman -Qq -- "$pkg" &>/dev/null
+    local pkg="${app_primary[$1]:-}"
+    [[ -n "$pkg" ]] && pacman -Qq -- "$pkg" &>/dev/null
 }
 
 while true; do
@@ -344,7 +363,7 @@ while true; do
             printf '%2d) %s\n' "$((i+1))" "${packages[i]}"
         fi
     done
-    printf '\nEnter numbers separated by commas or spaces; use 18 -4 -7 to exclude packages from Install All.\n'
+    printf '\nEnter numbers separated by commas or spaces; use %d -4 -7 to exclude packages from Install All.\n' "$INSTALL_ALL_NUMBER"
     if ! read -r -p 'Selection: ' selection; then
         printf '\n'
         break
@@ -363,7 +382,7 @@ while true; do
 
     for choice in "${choices[@]}"; do
         if [[ "${choice,,}" == all ]]; then
-            choice=18
+            choice=$INSTALL_ALL_NUMBER
         fi
         if [[ "$choice" =~ ^-([0-9]{1,6})$ ]]; then
             number=$((10#${BASH_REMATCH[1]}))
@@ -418,7 +437,7 @@ while true; do
             (( skip )) || selected_apps+=("${packages[i-1]}")
         done
     elif (( ${#excluded_numbers[@]} > 0 )); then
-        err 'Exclusions (-N) require Install All (18 or all).'
+        err "Exclusions (-N) require Install All ($INSTALL_ALL_NUMBER or all)."
         continue
     fi
 
