@@ -8,7 +8,7 @@ mkdir -p /var/lib/AccountsService/icons/
 
 chmod +x /etc/openflexos/usr/local/bin/*
 
-cp ../OpenFlexOS-Extras.sh /etc/openflexos/usr/local/bin/OpenFlexOS-Extras.sh
+cp ./OpenFlexOS-Extras.sh /etc/openflexos/usr/local/bin/OpenFlexOS-Extras.sh
 
 ln -s /etc/openflexos/usr/share/applications/OpenFlexOS_Wallpaper.desktop /usr/share/applications/OpenFlexOS_Wallpaper.desktop
 echo "export PATH='/etc/openflexos/usr/local/bin:$PATH'" > /etc/profile.d/custom_paths.sh
